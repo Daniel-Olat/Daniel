@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Name — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #FFFFFF;
+    --bg-soft: #FAFAF8;
+    --ink: #1C1C1A;
+    --ink-soft: #6B6B65;
+    --line: #E7E5E0;
+    --accent: #2B3A67;   /* deep ink-blue, single accent */
+    --accent-soft: #EEF0F6;
+  }
+  *{ box-sizing: border-box; margin:0; padding:0; }
+  html{ scroll-behavior: smooth; }
+  body{
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a{ color: inherit; text-decoration: none; }
+  ::selection{ background: var(--accent-soft); }
+
+  .display{
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  .eyebrow{
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+
+  .wrap{
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* ---------- NAV ---------- */
+  header{
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(255,255,255,0.86);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  nav.wrap{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+  .nav-name{
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.15rem;
+  }
+  .nav-links{
+    display: flex;
+    gap: 28px;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+  .nav-links a{ position: relative; padding: 4px 0; transition: color .2s; }
+  .nav-links a:hover{ color: var(--ink); }
+  .nav-links a::after{
+    content:'';
+    position:absolute;
+    left:0; bottom:0;
+    width:0; height:1px;
+    background: var(--accent);
+    transition: width .25s ease;
+  }
+  .nav-links a:hover::after{ width:100%; }
+  .nav-toggle{ display:none; }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding: 112px 0 88px;
+    border-bottom: 1px solid var(--line);
+  }
+  .hero .eyebrow{ margin-bottom: 18px; }
+  .hero h1{
+    font-size: clamp(2.6rem, 6vw, 4.6rem);
+    line-height: 1.04;
+    margin-bottom: 22px;
+  }
+  .hero h1 em{
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero p.lede{
+    max-width: 560px;
+    font-size: 1.08rem;
+    color: var(--ink-soft);
+    margin-bottom: 34px;
+  }
+  .hero-actions{
+    display:flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding: 11px 20px;
+    border-radius: 999px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    border: 1px solid var(--line);
+    transition: all .2s ease;
+  }
+  .btn-primary{
+    background: var(--ink);
+    color: #fff;
+    border-color: var(--ink);
+  }
+  .btn-primary:hover{ background: var(--accent); border-color: var(--accent); }
+  .btn-ghost:hover{ border-color: var(--ink); }
+
+  /* ---------- SECTION shell ---------- */
+  section{ padding: 80px 0; border-bottom: 1px solid var(--line); }
+  section:last-of-type{ border-bottom: none; }
+  .section-head{
+    display:flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    gap: 20px;
+  }
+  .section-head h2{
+    font-size: 2rem;
+  }
+  .section-head .eyebrow{ white-space: nowrap; }
+
+  /* ---------- ABOUT ---------- */
+  .about-body{
+    font-size: 1.02rem;
+    color: #3A3A36;
+    max-width: 640px;
+  }
+  .about-body p{ margin-bottom: 16px; }
+  .about-body p:last-child{ margin-bottom: 0; }
+
+  /* ---------- INTERESTS ---------- */
+  .tag-cloud{
+    display:flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .tag{
+    padding: 9px 16px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    background: var(--bg-soft);
+    transition: all .2s ease;
+  }
+  .tag:hover{
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-soft);
+  }
+
+  /* ---------- PROJECTS ---------- */
+  .project-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .project-card{
+    background: var(--bg);
+    padding: 30px;
+    transition: background .2s ease;
+  }
+  .project-card:hover{ background: var(--bg-soft); }
+  .project-card .p-eyebrow{
+    font-size: 0.7rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 10px;
+  }
+  .project-card h3{
+    font-size: 1.3rem;
+    font-family: 'Instrument Serif', serif;
+    margin-bottom: 10px;
+  }
+  .project-card p{
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+    margin-bottom: 16px;
+  }
+  .project-link{
+    font-size: 0.82rem;
+    font-weight: 500;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+  }
+  .project-link svg{ width:12px; height:12px; transition: transform .2s ease; }
+  .project-link:hover svg{ transform: translate(2px,-2px); }
+
+  /* ---------- RESEARCH / ARTICLES ---------- */
+  .pub-list{ display:flex; flex-direction: column; }
+  .pub-row{
+    display:flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+    padding: 22px 0;
+    border-top: 1px solid var(--line);
+  }
+  .pub-row:first-child{ border-top: none; }
+  .pub-main h3{
+    font-size: 1.08rem;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+  .pub-main .pub-meta{
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+  }
+  .pub-row .pub-date{
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    white-space: nowrap;
+    padding-top: 3px;
+  }
+
+  /* ---------- CONNECT / LINKS ---------- */
+  .connect{ text-align: center; }
+  .connect h2{ font-size: 2.1rem; margin-bottom: 12px; }
+  .connect p.lede{
+    color: var(--ink-soft);
+    max-width: 440px;
+    margin: 0 auto 40px;
+  }
+  .social-row{
+    display:flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .social-btn{
+    display:flex;
+    align-items:center;
+    gap: 9px;
+    padding: 12px 20px 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: 0.86rem;
+    font-weight: 500;
+    background: var(--bg);
+    transition: all .22s ease;
+  }
+  .social-btn svg{ width:18px; height:18px; flex-shrink:0; }
+  .social-btn:hover{
+    border-color: var(--ink);
+    background: var(--ink);
+    color: #fff;
+    transform: translateY(-2px);
+  }
+  .social-btn:hover svg{ fill: #fff; }
+
+  footer{
+    padding: 40px 0 60px;
+    text-align:center;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+  }
+
+  @media (max-width: 720px){
+    .wrap{ padding: 0 22px; }
+    .nav-links{ display:none; }
+    .project-grid{ grid-template-columns: 1fr; }
+    .pub-row{ flex-direction: column; gap: 4px; }
+    .section-head{ flex-direction: column; align-items: flex-start; gap: 8px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ transition: none !important; scroll-behavior: auto !important; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <div class="nav-name display">Olatunji Daniel</div>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#interests">Interests</a>
+      <a href="#projects">Projects</a>
+      <a href="#research">Research</a>
+      <a href="#connect">Connect</a>
+    </div>
+  </nav>
+</header>
+
+<!-- ================= HERO ================= -->
+<!-- EDIT: name, role/title, and the short intro line -->
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Artificial Intelligence</div>
+    <h1 class="display">Hi, I'm <em>Daniel</em>.</h1>
+    <p class="lede">
+    Artficial Intelligence Research and Engineering. 
+    </p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#projects">View projects</a>
+      <a class="btn btn-ghost" href="#connect">Get in touch</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ABOUT / BACKGROUND ================= -->
+<!-- EDIT: replace with your background, education, experience -->
+<section id="about">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="display">Background</h2>
+      <div class="eyebrow">Who I am</div>
+    </div>
+    <div class="about-body">
+      <p>
+        I come from a maths, physics and Engineering background and I am currently a 3rd Year Student of Electrical and Electronics Engineering at the University of Ibadan, Nigeria.
+      I am inspired by Artificial Intelligence and its usage to solve complex and real-world problems and to enhance future intelligence.I am also intrigued by the variuos hardware and compute capabilities required to power modern AI systems. I am currently focused on building my skills in AI and Machine Learning, and I am looking for opportunities to apply my knowledge in real-world projects and research.
+      </p>
+      <p>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= INTERESTS ================= -->
+<!-- EDIT: swap tags for your own interests / focus areas -->
+<section id="interests">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="display">Interests</h2>
+      <div class="eyebrow">What I'm drawn to</div>
+    </div>
+    <div class="tag-cloud">
+      <span class="tag">Artificial Intelligence</span>
+      <span class="tag">Machine Learning</span>
+      <span class="tag">Hardware</span>
+      <span class="tag">Robotics</span>
+      <span class="tag">Edge AI</span>
+      <span class="tag">Physical AI</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROJECTS ================= -->
+<!-- EDIT: duplicate .project-card blocks as needed, update link href -->
+<section id="projects">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="display">Projects</h2>
+      <div class="eyebrow">Selected work</div>
+    </div>
+    <div class="project-grid">
+      <div class="project-card">
+        <div class="p-eyebrow">2026</div>
+        <h3>Fault Detection in Electrical Machines</h3>
+        <p>Autoencoder-based anomaly detection in raw Electrical signal data to identify potential Faults. <br>
+            Frameworks: Pandas, Numpy, Scikit-learn,Tensorflow, Keras <br>
+            Tools: Jupyter Notebook
+        </p>
+        <a class="project-link" href="https://github.com/Daniel-Olat/AI-Fault-detection-in-Electrical-systems" target="_blank" rel="noopener">
+          View project
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+        </a>
+      </div>
+      <div class="project-card">
+        <div class="p-eyebrow">2026</div>
+        <h3>RAG based AI chatbot</h3>
+        <p>A simple Chatbot that uses the Fundamental principles of RAGs to answer questions and requests<br>
+            Language: Python<br>
+        </p>
+        <a class="project-link" href="https://github.com/Daniel-Olat/PDF-AI-Chatbot" target="_blank" rel="noopener">
+          View project
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= RESEARCH & ARTICLES ================= -->
+<!-- EDIT: duplicate .pub-row blocks as needed, update link href -->
+<section id="research">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="display">Research &amp; Articles</h2>
+      <div class="eyebrow">Writing &amp; publications</div>
+    </div>
+    <div class="pub-list">
+      <a class="pub-row" href="#">
+        <div class="pub-main">
+          <h3>None for now</h3>
+          <div class="pub-meta"></div>
+        </div>
+        <div class="pub-date"></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONNECT / SOCIAL LINKS ================= -->
+<!-- EDIT: update href on each social-btn. Delete any you don't need. -->
+<section id="connect" class="connect">
+  <div class="wrap">
+    <h2 class="display">Let's connect</h2>
+    <p class="lede">Reach me </p>
+    <div class="social-row">
+
+      <a class="social-btn" href="danielolatunji2907@gmail.com">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 5.5A2.5 2.5 0 0 1 4.5 3h15A2.5 2.5 0 0 1 22 5.5v13a2.5 2.5 0 0 1-2.5 2.5h-15A2.5 2.5 0 0 1 2 18.5v-13Zm2.2.5 7.6 6.2a.9.9 0 0 0 1.1 0L20.5 6H4.2Z"/></svg>
+        Email
+      </a>
+
+      <a class="social-btn" href="https://github.com/Daniel-Olat" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-1.04-.01-1.89-2.78.63-3.37-1.22-3.37-1.22-.46-1.2-1.11-1.52-1.11-1.52-.91-.64.07-.63.07-.63 1 .07 1.53 1.05 1.53 1.05.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.31.1-2.73 0 0 .84-.28 2.75 1.05a9.3 9.3 0 0 1 2.5-.35c.85 0 1.71.12 2.5.35 1.91-1.33 2.75-1.05 2.75-1.05.55 1.42.2 2.47.1 2.73.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.79-4.57 5.05.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.6.69.49A10.26 10.26 0 0 0 22 12.25C22 6.58 17.52 2 12 2Z"/></svg>
+        GitHub
+      </a>
+
+      <a class="social-btn" href="https://linkedin.com/in/daniel-olatunji-1b4711276" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.9 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5ZM.5 8.25h4V23h-4V8.25ZM8.5 8.25h3.83v2.01h.05c.53-1 1.85-2.06 3.8-2.06 4.07 0 4.82 2.68 4.82 6.16V23h-4v-6.68c0-1.6-.03-3.65-2.23-3.65-2.23 0-2.57 1.74-2.57 3.53V23h-4V8.25Z"/></svg>
+        LinkedIn
+      </a>
+
+      <a class="social-btn" href="https://twitter.com/danny_nets" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.24 3H21l-6.4 7.3L22.2 21h-6.24l-4.9-6.4L5.4 21H2.6l6.85-7.83L1.8 3h6.4l4.43 5.86L18.24 3Zm-1.1 16.17h1.53L7.02 4.74H5.38l11.76 14.43Z"/></svg>
+        Twitter / X
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">© 2026 Daniel. Built with precision.</div>
+</footer>
+
+</body>
+</html>
